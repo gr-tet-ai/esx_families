@@ -1,0 +1,108 @@
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Cairo', sans-serif; }
+html, body { width:100%; height:100%; overflow:hidden; background:transparent; }
+.hidden { display:none !important; }
+
+/* ============ Side Family HUD ============ */
+.hud {
+  position:fixed; top:38%; left:12px; width:270px;
+  background: transparent;
+  backdrop-filter: blur(12px);
+  border-radius: 10px; padding: 14px 16px 12px;
+  color:#fff; box-shadow: none;
+}
+.hud .accent {
+  position:absolute; top:0; right:0; width:4px; height:100%;
+  background: linear-gradient(180deg, #ffb81e, #ff7a1e); border-radius: 0 10px 10px 0;
+}
+.hud .title { font-size:17px; font-weight:900; color:#ffd54a; margin-bottom:10px; text-shadow:0 1px 2px #000, 0 0 4px #000, 0 2px 6px rgba(0,0,0,0.9); }
+.hud .row {
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:13px; padding:3px 0; border-bottom:1px dashed rgba(255,255,255,0.06);
+}
+.hud .row:last-of-type { border:none; }
+.hud .row, .hud .lbl, .hud .val { text-shadow: 0 1px 2px #000, 0 0 3px rgba(0,0,0,0.9); }
+.hud .lbl { color:#bdbdbd; font-weight:600; }
+.hud .val { color:#fff; font-weight:700; }
+.hud .val.money { color:#5fff8a; }
+.hud .hint { margin-top:10px; font-size:11px; color:#888; text-align:center; letter-spacing:0.5px; }
+
+/* ============ Side War HUD ============ */
+.war {
+  position:fixed; top:calc(38% + 250px); left:12px; width:270px;
+  background: transparent;
+  backdrop-filter: blur(12px);
+  border-radius:10px; padding:12px 14px; color:#fff;
+  box-shadow: none;
+  animation: warPulse 2s ease-in-out infinite;
+}
+@keyframes warPulse {
+  0%,100% { box-shadow: none; }
+  50%     { box-shadow: none; }
+}
+.war .war-accent { position:absolute; top:0; right:0; width:4px; height:100%; background:#ff3030; border-radius:0 10px 10px 0; }
+.war .war-title { font-size:15px; font-weight:900; color:#ff6a6a; margin-bottom:4px; text-shadow:0 1px 2px #000, 0 0 5px rgba(0,0,0,0.95); }
+.war .war-status { font-size:12px; color:#ffb0b0; margin-bottom:8px; text-shadow:0 1px 2px #000; }
+.war .war-scores { display:flex; justify-content:space-between; gap:10px; font-size:14px; font-weight:700; margin-bottom:6px; text-shadow:0 1px 2px #000, 0 0 4px rgba(0,0,0,0.9); }
+.war .score.mine { color:#7dff8a; }
+.war .score.theirs { color:#ff8a8a; }
+.war .war-timer { font-size:14px; font-weight:800; color:#ffd070; text-align:center; text-shadow:0 1px 2px #000, 0 0 4px rgba(0,0,0,0.9); }
+.war .war-prep { font-size:13px; color:#ffe070; text-align:center; margin-top:4px; }
+
+/* ============ Conquest Bar (Top) ============ */
+.conquest {
+  position:fixed; top:14px; left:50%; transform:translateX(-50%);
+  width:560px; padding:10px 16px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.85), rgba(15,5,5,0.85));
+  border-radius:8px; color:#fff;
+  box-shadow:0 6px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,215,0,0.2);
+  display:flex; align-items:center; gap:12px;
+  font-family:'Cairo', sans-serif;
+}
+.cq-side { display:flex; align-items:center; gap:8px; min-width:120px; }
+.cq-side.cq-left  { justify-content:flex-end; }
+.cq-side.cq-right { justify-content:flex-start; }
+.cq-name { font-size:13px; font-weight:700; color:#fff; max-width:100px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cq-score { font-size:22px; font-weight:900; font-family:'Bebas Neue', sans-serif; }
+.cq-left .cq-score  { color:#5fa8ff; }
+.cq-right .cq-score { color:#ff7070; }
+.cq-bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; }
+.cq-bar {
+  width:100%; height:14px; background:rgba(255,255,255,0.08);
+  border-radius:7px; overflow:hidden; display:flex;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.6);
+  direction:ltr; /* مهم: نفرضه LTR لأن الـ fill حسابي */
+}
+.cq-fill { height:100%; transition:width 0.6s cubic-bezier(0.4,0,0.2,1); }
+.cq-fill-atk { background:linear-gradient(90deg, #2c6ed5, #5fa8ff); }
+.cq-fill-def { background:linear-gradient(90deg, #ff7070, #d52c2c); }
+.cq-timer { font-size:13px; font-weight:700; color:#ffd54a; letter-spacing:0.5px; }
+
+/* ============ Big Announcement (Center) ============ */
+.announce {
+  position:fixed; top:30%; left:50%; transform:translate(-50%,-50%);
+  text-align:center; color:#fff; pointer-events:none;
+  animation: annPop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes annPop {
+  0% { opacity:0; transform:translate(-50%,-50%) scale(0.5); }
+  100% { opacity:1; transform:translate(-50%,-50%) scale(1); }
+}
+.ann-sub { font-size:18px; font-weight:600; color:#ffd54a; letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; text-shadow:0 2px 8px rgba(0,0,0,0.8); }
+.ann-title { font-size:64px; font-weight:900; color:#fff; text-shadow:0 4px 20px rgba(0,0,0,0.9), 0 0 30px rgba(255,80,80,0.6); line-height:1.1; }
+.ann-extra { font-size:20px; font-weight:700; color:#ffb0b0; margin-top:8px; text-shadow:0 2px 8px rgba(0,0,0,0.8); }
+
+/* ============ Countdown ============ */
+.countdown {
+  position:fixed; top:35%; left:50%; transform:translate(-50%,-50%);
+  text-align:center; color:#fff; pointer-events:none;
+}
+.cd-label { font-size:18px; color:#ffd54a; font-weight:700; letter-spacing:2px; margin-bottom:8px; text-shadow:0 2px 8px rgba(0,0,0,0.8); }
+.cd-num {
+  font-size:140px; font-weight:900; font-family:'Bebas Neue', sans-serif;
+  color:#ff5050; text-shadow:0 0 40px rgba(255,40,40,0.8), 0 6px 20px rgba(0,0,0,0.9);
+  animation: cdPulse 1s ease-in-out infinite;
+}
+@keyframes cdPulse {
+  0%,100% { transform:scale(1); }
+  50%     { transform:scale(1.15); }
+}

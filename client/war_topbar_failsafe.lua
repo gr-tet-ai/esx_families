@@ -1,0 +1,1 @@
+-- v0.7.8 disabled: replaced by client/war_hud_clean.lua

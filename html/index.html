@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Side: Family HUD -->
+  <div id="family-hud" class="hud hidden">
+    <div class="accent"></div>
+    <div class="title" id="f-title">العائلة</div>
+    <div class="row"><span class="lbl">الرتبة</span><span class="val" id="f-rank">—</span></div>
+    <div class="row"><span class="lbl">الأعضاء</span><span class="val" id="f-members">0</span></div>
+    <div class="row"><span class="lbl">الزونات</span><span class="val" id="f-zones">0</span></div>
+    <div class="row"><span class="lbl">الخزنة</span><span class="val money" id="f-vault">$0</span></div>
+    <div class="hint">[F6] لوحة العائلة</div>
+  </div>
+
+  <!-- Side: War HUD -->
+  <div id="war-hud" class="war hidden">
+    <div class="war-accent"></div>
+    <div class="war-title" id="w-title">حرب</div>
+    <div class="war-status" id="w-status">—</div>
+    <div class="war-scores">
+      <div class="score mine"><span id="w-mine-lbl">لنا</span>: <b id="w-mine">0</b></div>
+      <div class="score theirs"><span id="w-theirs-lbl">لهم</span>: <b id="w-theirs">0</b></div>
+    </div>
+    <div class="war-timer" id="w-timer">⏱ —</div>
+    <div class="war-prep hidden" id="w-prep">يبدأ خلال: <b id="w-prep-time">—</b></div>
+  </div>
+
+  <!-- Top: Conquest Bar (للمشاركين فقط) -->
+  <div id="conquest-bar" class="conquest hidden">
+    <div class="cq-side cq-left">
+      <span class="cq-name" id="cq-atk-name">?</span>
+      <span class="cq-score" id="cq-atk-score">0</span>
+    </div>
+    <div class="cq-bar-wrap">
+      <div class="cq-bar">
+        <div class="cq-fill cq-fill-atk" id="cq-fill-atk"></div>
+        <div class="cq-fill cq-fill-def" id="cq-fill-def"></div>
+      </div>
+      <div class="cq-timer" id="cq-timer">⏱ 00:00</div>
+    </div>
+    <div class="cq-side cq-right">
+      <span class="cq-score" id="cq-def-score">0</span>
+      <span class="cq-name" id="cq-def-name">?</span>
+    </div>
+  </div>
+
+  <!-- Center: Big Announcement -->
+  <div id="announce" class="announce hidden">
+    <div class="ann-sub" id="ann-sub"></div>
+    <div class="ann-title" id="ann-title"></div>
+    <div class="ann-extra" id="ann-extra"></div>
+  </div>
+
+  <!-- Center: Countdown 10..0 -->
+  <div id="countdown" class="countdown hidden">
+    <div class="cd-label">تبدأ المعركة خلال</div>
+    <div class="cd-num" id="cd-num">10</div>
+  </div>
+</body>
+<script src="app.js"></script>
+</html>

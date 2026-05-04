@@ -1,0 +1,4 @@
+_backup_*/
+*.bak*
+*.broken_*
+*.log
