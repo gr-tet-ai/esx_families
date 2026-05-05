@@ -49,3 +49,26 @@ CreateThread(function()
     end
 end)
 AddEventHandler('playerDropped', function() LastSentWarId[source] = nil end)
+
+-- v0.7.11: instant push helper
+function _G.PushWarHudNow(war)
+    if not war or war.status ~= 'active' then return end
+    local gangs = _G.GangsCache or _G.Gangs or {}
+    local zones = _G.ZonesCache or _G.Zones or {}
+    local atk, def, zone = gangs[war.attacker_gang_id] or {}, gangs[war.defender_gang_id] or {}, zones[war.zone_id] or {}
+    local function sc(s,id) return tonumber(s and (s[id] or s[tostring(id)])) or 0 end
+    local snap = {
+        war_id=war.id, status=war.status,
+        attacker_id=war.attacker_gang_id, defender_id=war.defender_gang_id,
+        zone_id=war.zone_id, zone_name=zone.name or '?',
+        attacker_label=atk.label or '?', defender_label=def.label or '?',
+        attacker_score=sc(war.scores, war.attacker_gang_id),
+        defender_score=sc(war.scores, war.defender_gang_id),
+        starts_at=war.starts_at or 0, ends_at=war.ends_at or 0,
+        server_now=os.time(), server_ms=GetGameTimer(),  -- v0.7.11b: ms للترتيب الدقيق
+    }
+    for _, pid in ipairs(GetPlayers()) do
+        TriggerClientEvent('esx_families:warHud:tick', tonumber(pid), snap)
+    end
+end
+print('[esx_families:warhud] v0.7.11 PushWarHudNow ready')

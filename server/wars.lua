@@ -288,6 +288,7 @@ function DeclareWar(src, zoneId)
     })
 
     broadcastWarUpdate(war)
+    if _G.PushWarHudNow then _G.PushWarHudNow(war) end -- v0.7.11 instant push
     EnsureWarTickThread()
     return true, ('تم إعلان الحرب — تبدأ بعد %d دقيقة'):format(cfg.prep_minutes)
 end
@@ -543,6 +544,7 @@ local function activateWarIfReady(war)
         MySQL.update('UPDATE family_wars SET status = ? WHERE id = ?', { 'active', war.id })
         warKillLog(('auto-activated war=%s from kill path'):format(war.id))
         broadcastWarUpdate(war)
+        if _G.PushWarHudNow then _G.PushWarHudNow(war) end -- v0.7.11 instant push
         return true
     end
     return false
@@ -687,6 +689,7 @@ function ProcessFamilyWarKill(killerSrc, victimSrc, sourceTag, opts)
 
     FlushWarScores(war)
     broadcastWarUpdate(war)
+    if _G.PushWarHudNow then _G.PushWarHudNow(war) end -- v0.7.11 instant push
     warKillLog(('COUNTED war=%s %s(%s) -> %s(%s) +%s source=%s score=%s:%s'):format(
         war.id, killerCid, killerGid, victimCid, victimGid, scorePts, sourceTag,
         tostring(war.scores[war.attacker_gang_id] or 0), tostring(war.scores[war.defender_gang_id] or 0)
@@ -823,6 +826,7 @@ function EnsureWarTickThread()
                             duration = 8000,
                         })
                         broadcastWarUpdate(war)
+                        if _G.PushWarHudNow then _G.PushWarHudNow(war) end -- v0.7.11 instant push
                     end
                 end
 
@@ -838,6 +842,7 @@ function EnsureWarTickThread()
                         MySQL.update('UPDATE family_wars SET status = ?, ends_at = FROM_UNIXTIME(?) WHERE id = ?',
                             { 'overtime', war.ends_at, warId })
                         broadcastWarUpdate(war)
+                        if _G.PushWarHudNow then _G.PushWarHudNow(war) end -- v0.7.11 instant push
                     else
                         local winner = s1 > s2 and war.attacker_gang_id or war.defender_gang_id
                         EndWar(warId, winner, 'time_up')
@@ -879,6 +884,7 @@ function EnsureWarTickThread()
                                 end
                             end
                             broadcastWarUpdate(war)
+                            if _G.PushWarHudNow then _G.PushWarHudNow(war) end -- v0.7.11 instant push
                         end
                     end
 
