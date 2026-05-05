@@ -656,7 +656,8 @@ function ProcessFamilyWarKill(killerSrc, victimSrc, sourceTag, opts)
     else
         scorePts = (Config.War and Config.War.points and Config.War.points.member) or 1
     end
-    local deathPts = GetAdminConfigNumber('score_death', 0)
+    if scorePts < 0 then scorePts = 0 end  -- v0.7.10: يمنع أي نقاط سالبة
+    local deathPts = 0  -- v0.7.10: النقاط زيادة فقط، الضحية لا تخسر
 
     war.scores = war.scores or {}
     war.kills = war.kills or {}
@@ -664,7 +665,7 @@ function ProcessFamilyWarKill(killerSrc, victimSrc, sourceTag, opts)
     war.pending_score_writes = war.pending_score_writes or {}
 
     war.scores[killerGid] = (war.scores[killerGid] or 0) + scorePts
-    war.scores[victimGid] = (war.scores[victimGid] or 0) + deathPts
+    -- v0.7.10 disabled: war.scores[victimGid] لم تعد تتأثر
     war.kills[killerGid]  = (war.kills[killerGid] or 0) + 1
     war.deaths[victimGid] = (war.deaths[victimGid] or 0) + 1
     war.pending_score_writes[killerGid] = true
