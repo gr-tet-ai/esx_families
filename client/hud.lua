@@ -1,10 +1,9 @@
 local function FamiliesUnixNow()
-    if os and os.time then
-        return FamiliesUnixNow()
-    end
     if GetCloudTimeAsInt then
-        return GetCloudTimeAsInt()
+        local ok, t = pcall(GetCloudTimeAsInt)
+        if ok and t and tonumber(t) then return tonumber(t) end
     end
+    if os and os.time then return os.time() end
     return math.floor((GetGameTimer and GetGameTimer() or 0) / 1000)
 end
 

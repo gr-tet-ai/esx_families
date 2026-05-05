@@ -1,7 +1,7 @@
 
 // v0.7.8: legacy war HUD quarantine — war UI is drawn only by client/war_hud_clean.lua
 function __familiesHideLegacyWarHud() {
-  ['war-hud','conquest-bar'].forEach((id) => { const el = document.getElementById(id); if (el) el.classList.add('hidden'); });
+  ['war-hud'].forEach((id) => { const el = document.getElementById(id); if (el) el.classList.add('hidden'); });
 }
 
 const $ = (id) => document.getElementById(id);
@@ -52,7 +52,7 @@ function startCountdown(secs) {
 
 window.addEventListener('message', (e) => {
   const d = e.data || {};
-  const legacyActions = ['updateWar','warHud:show','warHud:hide'];
+  const legacyActions = ['warHud:show','warHud:hide'];
   if (legacyActions.includes(d.action)) { __familiesHideLegacyWarHud(); return; }
   if (d.action==='updateWar') console.log('[FAM]', JSON.stringify(d));
 
@@ -73,7 +73,7 @@ window.addEventListener('message', (e) => {
       conquest.classList.add('hidden');
       return;
     }
-    __familiesHideLegacyWarHud();
+    warHud.classList.add('hidden');
     $('w-title').textContent  = '⚔ ' + (d.attacker || '?') + ' ضد ' + (d.defender || '?');
     $('w-status').textContent = '📍 ' + (d.zone || '?') + ' | ' + (d.status || '—');
     $('w-mine').textContent   = d.myScore ?? 0;
@@ -89,7 +89,8 @@ window.addEventListener('message', (e) => {
 
     // Conquest bar (للمشاركين فقط — السيرفر يرسل isParticipant)
     if (d.isParticipant) {
-      __familiesHideLegacyWarHud();
+      warHud.classList.add('hidden');
+      conquest.classList.remove('hidden');
       $('cq-atk-name').textContent  = d.attacker || '?';
       $('cq-def-name').textContent  = d.defender || '?';
       $('cq-atk-score').textContent = d.attackerScore ?? 0;
