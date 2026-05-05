@@ -5,7 +5,7 @@ lua54 'yes'
 name 'esx_families'
 author 'Lovable AI for Family Server'
 description 'ESX Family/Gang System v0.6.3b — Identifier + Manifest Start Fix'
-version '0.7.13'
+version '0.8.0'
 
 shared_scripts {
     '@ox_lib/init.lua',
@@ -48,6 +48,7 @@ client_scripts {
     'client/vault.lua',
     'client/stash.lua',
     'client/notifications.lua',
+    'client/menu_modern.lua',
     'client/menu.lua',
     'client/menu_members.lua',
     'client/menu_ranks.lua',
@@ -74,6 +75,9 @@ files {
     'html/index.html',
     'html/style.css',
     'html/app.js',
+    'menu/style.css',
+    'menu/core.js',
+    'menu/screens/f6_main.js',
 }
 
 -- esx_families v0.7.0e hard kill detector

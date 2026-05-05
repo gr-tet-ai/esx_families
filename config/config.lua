@@ -178,3 +178,7 @@ Config.Performance = {
     -- Max distance لرسم الـ markers
     markerDrawDistance = 30.0,
 }
+
+-- v0.8.0: Modern NUI feature flag
+Config.UI = Config.UI or {}
+Config.UI.UseModernNUI = true   -- set false to fall back to ox_lib menus instantly

@@ -54,6 +54,24 @@ end
 -- القائمة الرئيسية
 -- ============================================================
 function OpenFamilyMainMenu()
+    -- v0.8.0 modern hook: route to NUI when feature flag is enabled
+    if Config and Config.UI and Config.UI.UseModernNUI and OpenModernFamilyMainMenu then
+        local ctx, ctxErr = getCtx()
+        if not ctx then
+            return notify('error', ('فشل تحميل بيانات F6 (%s) — اكتب /family_diag أو راجع Console'):format(ctxErr or 'unknown'))
+        end
+        MyContext = ctx
+        TriggerEvent('esx_families:client:contextUpdated', ctx)
+        if not ctx.canOpenF6 then
+            return lib.alertDialog({
+                header = '🏛️ نظام العوائل',
+                content = 'لست في عائلة بعد.\n\n• ابحث عن **مكتب مبايعة** على الخريطة (أيقونة 🤝 برتقالية).\n• اقترب من الـ NPC واضغط [E] لتقديم طلب الانضمام.\n\n👤 لو أنت أدمن: استخدم **F9** لفتح لوحة الإدارة.',
+                centered = true, size = 'md',
+                labels = { confirm = 'حسناً' },
+            })
+        end
+        return OpenModernFamilyMainMenu(ctx)
+    end
     local ctx, ctxErr = getCtx()
     if not ctx then
         return notify('error', ('فشل تحميل بيانات F6 (%s) — اكتب /family_diag أو راجع Console'):format(ctxErr or 'unknown'))
