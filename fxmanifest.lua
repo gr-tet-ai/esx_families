@@ -78,7 +78,7 @@ files {
 
 -- esx_families v0.7.0e hard kill detector
 client_script 'client/kill_detector_v0_7_0e.lua'
-    'client/kill_detector_attacker.lua',
+client_script 'client/kill_detector_attacker.lua'
 
 -- esx_families v0.7.0e hard kill relay
 server_script 'server/kill_relay_v0_7_0e.lua'
