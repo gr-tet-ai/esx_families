@@ -5,7 +5,7 @@ lua54 'yes'
 name 'esx_families'
 author 'Lovable AI for Family Server'
 description 'ESX Family/Gang System v0.6.3b — Identifier + Manifest Start Fix'
-version '0.7.11b'
+version '0.7.12'
 
 shared_scripts {
     '@ox_lib/init.lua',

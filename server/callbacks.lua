@@ -158,11 +158,23 @@ lib.callback.register('qbx_families:server:getMyContext', function(source)
     if gangId and GangActiveWar and GangActiveWar[gangId] then
         local w = ActiveWars[GangActiveWar[gangId]]
         if w then
+            local atkScore = tonumber((w.scores or {})[w.attacker_gang_id] or (w.scores or {})[tostring(w.attacker_gang_id)]) or 0
+            local defScore = tonumber((w.scores or {})[w.defender_gang_id] or (w.scores or {})[tostring(w.defender_gang_id)]) or 0
             myWar = {
                 id = w.id, status = w.status,
+                attacker = w.attacker_gang_id,
+                defender = w.defender_gang_id,
                 attacker_label = (GangsCache[w.attacker_gang_id] or {}).label,
                 defender_label = (GangsCache[w.defender_gang_id] or {}).label,
+                attacker_score = atkScore,
+                defender_score = defScore,
+                scores = {
+                    [w.attacker_gang_id] = atkScore, [tostring(w.attacker_gang_id)] = atkScore,
+                    [w.defender_gang_id] = defScore, [tostring(w.defender_gang_id)] = defScore,
+                },
+                zone_id = w.zone_id, zone = w.zone_id,
                 zone_name = (ZonesCache[w.zone_id] or {}).name,
+                starts_at = w.starts_at or 0, ends_at = w.ends_at or 0,
                 my_side = (gangId == w.attacker_gang_id) and 'attacker' or 'defender',
             }
         end

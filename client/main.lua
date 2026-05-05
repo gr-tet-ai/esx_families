@@ -73,21 +73,40 @@ RegisterNetEvent('qbx_families:client:warUpdate', function(war)
     if not MyContext or not MyContext.gang then return end
     if war.attacker == MyContext.gang.id or war.defender == MyContext.gang.id then
         -- حدّث context الجزئي محلياً لـ HUD (بدون round-trip للسيرفر)
+        local oldWar = MyContext.myWar
+        local sameWar = oldWar and tostring(oldWar.id) == tostring(war.id)
+        local scores = war.scores or {}
+        local atkScore = tonumber(scores[war.attacker] or scores[tostring(war.attacker)]) or (sameWar and tonumber(oldWar.attacker_score)) or 0
+        local defScore = tonumber(scores[war.defender] or scores[tostring(war.defender)]) or (sameWar and tonumber(oldWar.defender_score)) or 0
+
+        if sameWar then
+            local oldAtk = tonumber(oldWar.attacker_score) or 0
+            local oldDef = tonumber(oldWar.defender_score) or 0
+            if (atkScore + defScore) < (oldAtk + oldDef) then return end
+            if atkScore < oldAtk then atkScore = oldAtk end
+            if defScore < oldDef then defScore = oldDef end
+        end
+
         MyContext.myWar = MyContext.myWar or {}
         MyContext.myWar.id = war.id
         MyContext.myWar.status = war.status
-        MyContext.myWar.attacker_score = (war.scores or {})[war.attacker] or 0
-        MyContext.myWar.defender_score = (war.scores or {})[war.defender] or 0
+        MyContext.myWar.attacker_score = atkScore
+        MyContext.myWar.defender_score = defScore
         MyContext.myWar.ends_at = war.ends_at
         MyContext.myWar.starts_at = war.starts_at  -- v0.6.4: لعدّاد الاستعداد
         MyContext.myWar.attacker = war.attacker    -- v0.6.4: للـ war_visual HUD
         MyContext.myWar.defender = war.defender    -- v0.6.4: للـ war_visual HUD
-        MyContext.myWar.scores  = war.scores or {} -- v0.6.4: للنقاط داخل الزون
+        MyContext.myWar.scores = {
+            [war.attacker] = atkScore, [tostring(war.attacker)] = atkScore,
+            [war.defender] = defScore, [tostring(war.defender)] = defScore,
+        }
         MyContext.myWar.zone_id = war.zone
+        MyContext.myWar.zone = war.zone
         MyContext.myWar.zone_name = (ClientZones[war.zone] or {}).name
         MyContext.myWar.attacker_label = (ClientGangs[war.attacker] or {}).label
         MyContext.myWar.defender_label = (ClientGangs[war.defender] or {}).label
         MyContext.myWar.my_side = (war.attacker == MyContext.gang.id) and 'attacker' or 'defender'
+        TriggerEvent('esx_families:client:contextUpdated', MyContext)
     end
 end)
 
