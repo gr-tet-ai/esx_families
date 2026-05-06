@@ -161,9 +161,8 @@ lib.callback.register('qbx_families:server:getRanks', function(source, gangId)
 end)
 
 lib.callback.register('qbx_families:server:getMembers', function(source, gangId)
-    print(('[DIAG_P3D3_GET_MEMBERS] src=%s gangId=%s'):format(tostring(source), tostring(gangId)))
-    local cid = GetCitizenId(source); if not cid then print('[DIAG_P3D3_GET_MEMBERS] reject: no cid'); return {} end
-    if not IsAdmin(source) and GetPlayerGang(cid) ~= gangId then print(('[DIAG_P3D3_GET_MEMBERS] reject: cid=%s not in gang=%s'):format(cid, tostring(gangId))); return {} end
+    local cid = GetCitizenId(source); if not cid then return {} end
+    if not IsAdmin(source) and GetPlayerGang(cid) ~= gangId then return {} end
 
     local rows = MySQL.query.await([[
         SELECT m.*, r.label AS rank_label, r.rank_order, r.tier
@@ -172,7 +171,6 @@ lib.callback.register('qbx_families:server:getMembers', function(source, gangId)
         WHERE m.gang_id = ?
         ORDER BY r.rank_order ASC, m.joined_at ASC
     ]], { gangId }) or {}
-    print(('[DIAG_P3D3_GET_MEMBERS] returning %d rows'):format(#rows))
     return rows
 end)
 

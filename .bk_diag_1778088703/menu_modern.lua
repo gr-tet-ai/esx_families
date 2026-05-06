@@ -89,7 +89,7 @@ RegisterNUICallback('qfm:select', function(data, cb)
   local act = data and data.action or ''
   local id  = tonumber(data and data.id) or nil
   if act == 'overview'        and id then ShowFamilyOverview(id)
-  elseif act == 'members'     and id then print(('[DIAG_P3D3_MEMBERS_SELECT] act=members id=%s'):format(tostring(id))); OpenMembersMenu(id)
+  elseif act == 'members'     and id then OpenMembersMenu(id)
   elseif act == 'join_requests'    then OpenJoinRequestsMenu()
   elseif act == 'recruit_points' and id then OpenMyRecruitmentMenu(id)
   elseif act == 'ranks'       and id then OpenRanksMenu(id)

@@ -14,11 +14,8 @@ end
 -- ============================================================
 function OpenMembersMenu(gangId)
     CreateThread(function()
-        print(('[DIAG_P3D3_MEMBERS_OPEN] step=1 gangId=%s'):format(tostring(gangId)))
         local members = lib.callback.await('qbx_families:server:getMembers', false, gangId)
-        print(('[DIAG_P3D3_MEMBERS_OPEN] step=2 members=%s count=%s'):format(tostring(members~=nil), tostring(members and #members or 'nil')))
         local ctx     = lib.callback.await('qbx_families:server:getMyContext', false)
-        print(('[DIAG_P3D3_MEMBERS_OPEN] step=3 ctx=%s gang=%s isAdmin=%s'):format(tostring(ctx~=nil), tostring(ctx and ctx.gang and ctx.gang.id or 'nil'), tostring(ctx and ctx.isAdmin)))
         local myRank  = ctx and ctx.rank or nil
         local isLeader= ctx and ctx.isLeader or false
         local isAdmin = ctx and ctx.isAdmin  or false
@@ -65,9 +62,7 @@ function OpenMembersMenu(gangId)
             end
         end
 
-        print(('[DIAG_P3D3_MEMBERS_OPEN] step=4 about_to_QFM_list items=%d'):format(#items))
         local idx = QFM.list('الأعضاء', items, { subtitle = ('عائلة #%d'):format(gangId) })
-        print(('[DIAG_P3D3_MEMBERS_OPEN] step=5 QFM_list_returned idx=%s'):format(tostring(idx)))
         if idx and handlers[idx] then handlers[idx]() end
     end)
 end

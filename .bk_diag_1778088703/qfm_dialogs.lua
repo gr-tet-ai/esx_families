@@ -31,7 +31,6 @@ local function awaitDialog(screen, payload)
     local tok = newToken()
     payload.token = tok
     pending[tok] = co
-    print(('[DIAG_P3D3_AWAIT] sending screen=%s token=%s payload_keys=%s'):format(tostring(screen), tostring(tok), tostring(payload and table.concat((function() local k={} for kk in pairs(payload) do k[#k+1]=kk end return k end)(), ',') or 'nil')))
     setFocus(true)
     SendNUIMessage({ qfm = true, cmd = 'open', screen = screen, payload = payload })
 

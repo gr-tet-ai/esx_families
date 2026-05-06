@@ -16,7 +16,6 @@
   // ---------- LIST ----------
   // payload: { token, title, subtitle, items:[{id,title,desc,fa,iconColor,readOnly,danger}], backToken }
   window.QFM_SCREENS.dlg_list = function(Q, p){
-    console.log('[DIAG_P3D3_RENDER] dlg_list called: title=', p.title, 'items=', (p.items||[]).length, 'token=', p.token);
     const items = (p.items||[]).map((o, i)=>{
       const fa   = o.fa || (o.readOnly ? 'fa-circle-info' : 'fa-chevron-left');
       const cls  = o.iconColor ? ` qfm-icon-${o.iconColor}` : '';

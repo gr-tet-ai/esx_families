@@ -62,7 +62,6 @@
   window.addEventListener('message', (ev)=>{
     const d = ev.data || {};
     if(d.qfm !== true) return;
-    console.log('[DIAG_P3D3_MSG] cmd=', d.cmd, 'screen=', d.screen, 'has_screens=', !!(window.QFM_SCREENS && window.QFM_SCREENS[d.screen]), 'payload_items=', (d.payload && d.payload.items && d.payload.items.length));
 
     if(d.cmd === 'close'){ Q.close('lua'); return; }
     if(d.cmd !== 'open' || !d.screen) return;
