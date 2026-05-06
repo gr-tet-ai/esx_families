@@ -79,6 +79,7 @@ files {
     'html/menu/style.css',
     'html/menu/core.js',
     'html/menu/screens/f6_main.js',
+    'html/menu/screens/f6_dialogs.js',
 }
 
 -- esx_families v0.7.0e hard kill detector
