@@ -5,7 +5,7 @@
 
   function header(title, subtitle){
     return `<div class="qfm-header">
-      <div class="qfm-title"><i class="fas fa-list-check" style="margin-left:8px;color:var(--qfm-gold-1)"></i>${esc(title||'')}</div>
+      <div class="qfm-title"><i class="fas fa-shield-halved" style="margin-left:8px;color:var(--qfm-gold-1)"></i>${esc(title||'')}</div>
       ${subtitle?`<div class="qfm-sub">${esc(subtitle)}</div>`:''}
     </div>`;
   }
@@ -35,7 +35,7 @@
 
     const backBtn = p.backToken ? `<button class="qfm-back-btn" id="qfm-back"><i class="fas fa-arrow-right"></i> رجوع</button>` : '';
     Q.open(`${header(p.title, p.subtitle)}
-      <div class="qfm-list qfm-list-1col">${items || '<div class="qfm-empty">لا توجد عناصر</div>'}</div>
+      <div class="qfm-list">${items || '<div class="qfm-empty">لا توجد عناصر</div>'}</div>
       ${footer(backBtn)}`);
 
     // Bind item clicks → dlg:result (selected idx)
