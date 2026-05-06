@@ -14,25 +14,10 @@ end
 -- ============================================================
 function OpenMembersMenu(gangId)
     CreateThread(function()
-        print(('[FAM_MEMBERS] step=1 gangId=%s'):format(tostring(gangId)))
-        if not gangId then
-            notify('error','معرّف العائلة مفقود'); return
-        end
-        local ok1, members = pcall(lib.callback.await, 'qbx_families:server:getMembers', false, gangId)
-        if not ok1 then
-            print('[FAM_MEMBERS] FATAL getMembers error: '..tostring(members))
-            notify('error','تعذر جلب الأعضاء (callback error)'); return
-        end
-        if members == nil then
-            print('[FAM_MEMBERS] getMembers returned nil — server callback not registered or denied')
-            notify('error','السيرفر لم يرد على طلب الأعضاء'); return
-        end
-        print(('[FAM_MEMBERS] step=2 count=%d'):format(#members))
-        local ok2, ctx = pcall(lib.callback.await, 'qbx_families:server:getMyContext', false)
-        if not ok2 or ctx == nil then
-            print('[FAM_MEMBERS] getMyContext failed: '..tostring(ctx))
-            notify('error','تعذر جلب بيانات اللاعب'); return
-        end
+        print(('[DIAG_P3D3_MEMBERS_OPEN] step=1 gangId=%s'):format(tostring(gangId)))
+        local members = lib.callback.await('qbx_families:server:getMembers', false, gangId)
+        print(('[DIAG_P3D3_MEMBERS_OPEN] step=2 members=%s count=%s'):format(tostring(members~=nil), tostring(members and #members or 'nil')))
+        local ctx     = lib.callback.await('qbx_families:server:getMyContext', false)
         print(('[DIAG_P3D3_MEMBERS_OPEN] step=3 ctx=%s gang=%s isAdmin=%s'):format(tostring(ctx~=nil), tostring(ctx and ctx.gang and ctx.gang.id or 'nil'), tostring(ctx and ctx.isAdmin)))
         local myRank  = ctx and ctx.rank or nil
         local isLeader= ctx and ctx.isLeader or false
@@ -80,16 +65,9 @@ function OpenMembersMenu(gangId)
             end
         end
 
-        if #items == 0 then
-            items[#items+1] = { title='لا توجد بيانات', readOnly=true, fa='fa-circle-info' }
-        end
-        print(('[FAM_MEMBERS] step=4 opening QFM.list items=%d'):format(#items))
-        local ok3, idx = pcall(QFM.list, 'الأعضاء', items, { subtitle = ('عائلة #%d'):format(gangId) })
-        if not ok3 then
-            print('[FAM_MEMBERS] QFM.list crashed: '..tostring(idx))
-            notify('error','تعذر فتح القائمة'); return
-        end
-        print(('[FAM_MEMBERS] step=5 idx=%s'):format(tostring(idx)))
+        print(('[DIAG_P3D3_MEMBERS_OPEN] step=4 about_to_QFM_list items=%d'):format(#items))
+        local idx = QFM.list('الأعضاء', items, { subtitle = ('عائلة #%d'):format(gangId) })
+        print(('[DIAG_P3D3_MEMBERS_OPEN] step=5 QFM_list_returned idx=%s'):format(tostring(idx)))
         if idx and handlers[idx] then handlers[idx]() end
     end)
 end

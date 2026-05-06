@@ -74,18 +74,9 @@
       try{
         if(tok) root.setAttribute('data-pending-token', tok);
         window.QFM_SCREENS[d.screen](Q, d.payload || {});
-        // failsafe: لو screen رسم بدون ما ينادي Q.open، نضمن الفتح
-        if(!root.classList.contains('qfm-open')){
-          console.warn('[qfm] screen', d.screen, 'rendered but root not opened — forcing');
-          root.classList.add('qfm-open');
-        }
-        if(!root.innerHTML.trim()){
-          console.error('[qfm] screen', d.screen, 'produced empty DOM — emergency close');
-          emergencyClose(tok, 'empty_render');
-        }
         return;
       }catch(err){
-        console.error('[qfm] screen error:', d.screen, err, err && err.stack);
+        console.error('[qfm] screen error:', d.screen, err);
         emergencyClose(tok, 'screen_error');
         return;
       }

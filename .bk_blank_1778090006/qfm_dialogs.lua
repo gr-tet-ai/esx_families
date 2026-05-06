@@ -5,7 +5,7 @@ QFM = QFM or {}
 
 local pending = {}
 local nextTok = 1
-local DIALOG_TIMEOUT_MS = 8000  -- 15s — لو NUI عاطل، نفكّ القفل
+local DIALOG_TIMEOUT_MS = 15000  -- 15s — لو NUI عاطل، نفكّ القفل
 
 local function setFocus(state) SetNuiFocus(state, state) end
 
@@ -38,8 +38,7 @@ local function awaitDialog(screen, payload)
     -- timeout watchdog
     SetTimeout(DIALOG_TIMEOUT_MS, function()
         if pending[tok] then
-            print(('[QFM] TIMEOUT screen=%s token=%s — NUI did not render'):format(screen, tok))
-            if lib and lib.notify then lib.notify({type='error', description='القائمة لم تستجب — جرّب /qfm_unstick'}) end
+            print(('[QFM] timeout on screen=%s token=%s — auto-closing'):format(screen, tok))
             SendNUIMessage({ qfm = true, cmd = 'close' })
             resolveToken(tok, { ok=false, timeout=true })
         end
